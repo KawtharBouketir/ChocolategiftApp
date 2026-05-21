@@ -1,79 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- activity_cart.xml -->
+<!-- Top section: customer name input.
+     Middle: cart RecyclerView (scrollable list of selected items).
+     Bottom: total price label + checkout button. -->
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/background">
 
+    <!-- Toolbar -->
     <TextView
-        android:id="@+id/txtCartTitle"
+        android:id="@+id/tv_cart_header"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@color/primary"
+        android:text="🛒 My Cart"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Customer name card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/card_background"
+        app:layout_constraintTop_toBottomOf="@id/tv_cart_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Name"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginBottom="6dp"/>
+
+            <!-- The user enters their name here before checkout -->
+            <EditText
+                android:id="@+id/et_customer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your full name"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_main"
+                android:backgroundTint="@color/secondary"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Empty cart message (hidden when cart has items) -->
+    <TextView
+        android:id="@+id/tv_empty_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Cart"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:text="Your cart is empty 🍫\nGo add some chocolates!"
         android:textColor="@color/text_main"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:textSize="17sp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/card_name"
+        app:layout_constraintBottom_toTopOf="@id/card_total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Cart items list -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCart"
+        android:id="@+id/rv_cart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/txtCartTitle"
-        app:layout_constraintBottom_toTopOf="@id/edtCustomerName"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/card_name"
+        app:layout_constraintBottom_toTopOf="@id/card_total"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <EditText
-        android:id="@+id/edtCustomerName"
+    <!-- Total price + checkout button pinned to the bottom -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_total"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter your name"
-        android:textColor="@color/text_main"
-        android:textColorHint="@color/text_main"
-        app:layout_constraintBottom_toTopOf="@id/txtTotal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp"/>
-
-    <TextView
-        android:id="@+id/txtTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total: $0.00"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/accent"
-        app:layout_constraintBottom_toTopOf="@id/btnCheckout"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="12dp"/>
-
-    <Button
-        android:id="@+id/btnCheckout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Checkout"
-        android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnRefreshCart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp"/>
-
-    <Button
-        android:id="@+id/btnRefreshCart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Refresh Cart"
-        android:backgroundTint="@color/secondary"
-        android:textColor="@android:color/white"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/card_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Total price display -->
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total: $0.00"
+                android:textColor="@color/primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Checkout button -->
+            <Button
+                android:id="@+id/btn_checkout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Checkout ✓"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/primary"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
